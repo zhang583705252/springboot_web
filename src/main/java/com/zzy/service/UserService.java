@@ -1,7 +1,7 @@
-package com.zzy.dao;
+package com.zzy.service;
 
 import com.zzy.entity.User;
 
-public interface UserDao {
+public interface UserService {
     User findById(Integer id);
 }
