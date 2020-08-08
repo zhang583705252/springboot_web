@@ -64,21 +64,24 @@ public class FileUpload {
     }
     @GetMapping("/download")
     public void fileDownload(String fileName, HttpServletResponse response){
+        FileInputStream inputStream = null;
+        ServletOutputStream outputStream = null;
         //获取下载文件的路径
         try {
             String path = ResourceUtils.getURL("classpath:").getPath()+"/static/files";
             File file = new File(path, fileName);
-            FileInputStream inputStream = new FileInputStream(file);
-            ServletOutputStream outputStream = response.getOutputStream();
+            inputStream = new FileInputStream(file);
+            outputStream = response.getOutputStream();
             response.setHeader("Content-Disposition", "attachment;fileName="+fileName);
             int num = IOUtils.copy(inputStream, outputStream);
-            IOUtils.closeQuietly(inputStream);
-            IOUtils.closeQuietly(outputStream);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(outputStream);
         }
     }
 
